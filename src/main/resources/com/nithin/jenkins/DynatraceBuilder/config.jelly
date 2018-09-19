@@ -1,0 +1,14 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+	
+	<f:entry title="${%DynatraceBuilder environmentId}" field="environmentId">
+    	<f:textbox />
+  	</f:entry>  
+  	<f:entry title="${%DynatraceBuilder apiToken}" field="apiToken">
+    	<f:textbox />
+  	</f:entry>    
+  	<f:entry title="${%DynatraceBuilder passToken}" field="passToken">
+    	<f:textbox />
+  	</f:entry>     
+  	     	
+</j:jelly>
