@@ -10,5 +10,7 @@
   	<f:entry title="${%DynatraceBuilder passToken}" field="passToken">
     	<f:textbox />
   	</f:entry>     
-  	     	
+  	<f:validateButton
+  		 title="${%Test Connection}" progress="${%Testing...}"
+   		 method="testConnection" with="environmentId,apiToken"/>    	
 </j:jelly>
