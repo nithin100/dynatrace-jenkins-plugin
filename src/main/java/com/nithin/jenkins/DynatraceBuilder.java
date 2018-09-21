@@ -12,7 +12,6 @@ import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.AbstractProject;
-import hudson.model.FreeStyleProject;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.tasks.BuildStepDescriptor;
@@ -58,12 +57,13 @@ public class DynatraceBuilder extends Builder implements SimpleBuildStep {
 		return passToken;
 	}
 
-	/*@Override
-	public boolean perform(hudson.model.Build<?, ?> build, hudson.Launcher launcher,
-			hudson.model.BuildListener listener) throws InterruptedException, java.io.IOException {
-		System.out.println(environmentId + " " + apiToken + " " + passToken);
-		return true;
-	};*/
+	/*
+	 * @Override public boolean perform(hudson.model.Build<?, ?> build,
+	 * hudson.Launcher launcher, hudson.model.BuildListener listener) throws
+	 * InterruptedException, java.io.IOException {
+	 * System.out.println(environmentId + " " + apiToken + " " + passToken);
+	 * return true; };
+	 */
 
 	@Extension
 	public static final class DynatracePluginBuildDescriptor extends BuildStepDescriptor<Builder> {
@@ -82,7 +82,17 @@ public class DynatraceBuilder extends Builder implements SimpleBuildStep {
 		public FormValidation doTestConnection(@QueryParameter("environmentId") String environmentId,
 				@QueryParameter("apiToken") String apiToken) {
 			System.out.println("Passed envId is " + environmentId + " and api token is " + apiToken);
-			return FormValidation.ok("Test connection successful");
+			TestConnection connectionTest = new TestConnection();
+			try {
+				boolean areValidCredentials = connectionTest.run(environmentId, apiToken);
+				if (areValidCredentials) {
+					return FormValidation.ok("Test connection successful");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				return FormValidation.error("Test connection unsuccessful");
+			}
+			return FormValidation.error("Test connection unsuccessful");
 		}
 
 	}
